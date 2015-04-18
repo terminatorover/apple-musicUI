@@ -13,6 +13,7 @@
 @property id<RGSeeViewDelegate> delegate;
 @property (nonatomic) CGFloat treshold;
 @property (nonatomic) CGFloat swingAngle;
+@property (nonatomic) CGFloat minScale;
 @end
 
 

@@ -31,6 +31,8 @@
 - (void)setupSubviews
 {
     _mainImageView = [[UIImageView alloc]initWithFrame:CGRectZero];
+    UIImage *image = [UIImage imageNamed:@"i3"];
+    _mainImageView.image = image;
     [self addSubview:_mainImageView];
 }
 
@@ -94,12 +96,18 @@
     return (centerY/superViewHeight) * 100;
 }
 
-
-
 - (CGFloat)opacityForYPercentage:(CGFloat)percent
 {
     return 1 - ( (fabs(percent) - 50 )/ 50);
 }
+
+- (CGFloat)scaleFromYPercentageOffset:(CGFloat)percent
+{
+    CGFloat difference =  (fabs(percent) - 50);
+    return MAX(1- (fabs(difference) * self.minScale/50),.9);
+}
+
+
 
 #pragma mark - Rotation Angle Computer
 - (CGFloat)angleForYPercentage:(CGFloat)percent
@@ -125,12 +133,14 @@
     CGFloat computedYPosition = [self yOffsetPercentageForView:view inSuperView:self withOffset:offset];
     //---->
     CGFloat computedAngle = [self angleForYPercentage:computedYPosition];
+    CGFloat computedScale = [self scaleFromYPercentageOffset:computedYPosition];
 //    NSLog(@"%f : %f",computedAngle,computedYPosition);
     NSLog(@"%f, %f",computedAngle,computedYPosition);
     CATransform3D t = CATransform3DIdentity;
     t.m34 = 1.0/ -500;
     t = CATransform3DRotate(t, computedAngle, 1,0, 0);
     t = CATransform3DTranslate(t, 0, offset, 0 );
+    t = CATransform3DScale(t, computedScale, computedScale, 0);
     return t;
 
 }
@@ -179,6 +189,15 @@
         _swingAngle = 0.20;
     }
     return _swingAngle;
+}
+
+- (CGFloat)minScale
+{
+    if(_minScale == 0.0)
+    {
+        _minScale = .9;
+    }
+    return _minScale;
 }
 /*
 // Only override drawRect: if you perform custom drawing.
