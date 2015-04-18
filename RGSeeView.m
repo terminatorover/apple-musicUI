@@ -34,6 +34,9 @@
     UIImage *image = [UIImage imageNamed:@"i3"];
     _mainImageView.image = image;
     [self addSubview:_mainImageView];
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [self animateToCenter];
+//    });
 }
 
 - (void)setupGestureRecognizers
@@ -135,7 +138,7 @@
     CGFloat computedAngle = [self angleForYPercentage:computedYPosition];
     CGFloat computedScale = [self scaleFromYPercentageOffset:computedYPosition];
 //    NSLog(@"%f : %f",computedAngle,computedYPosition);
-    NSLog(@"%f, %f",computedAngle,computedYPosition);
+//    NSLog(@"%f, %f",computedAngle,computedYPosition);
     CATransform3D t = CATransform3DIdentity;
     t.m34 = 1.0/ -500;
     t = CATransform3DRotate(t, computedAngle, 1,0, 0);
@@ -157,18 +160,21 @@
 
 - (void)animateToCenter
 {
-    [UIView animateWithDuration:.4
-                          delay:.2
-         usingSpringWithDamping:.4
-          initialSpringVelocity:6
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-                         self.mainImageView.layer.transform = CATransform3DIdentity;
-                         self.mainImageView.center = self.center;
-                     }
-                     completion:^(BOOL finished) {
-                         
-                     }];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [UIView animateWithDuration:.4
+                              delay:0
+             usingSpringWithDamping:.5
+              initialSpringVelocity:6
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             NSLog(@"ANIMATED");
+                                                     self.mainImageView.layer.transform = CATransform3DIdentity;
+                             self.mainImageView.center = self.center;
+                         }
+                         completion:^(BOOL finished) {
+                             
+                         }];
+    });
 }
 
 
