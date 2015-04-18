@@ -78,8 +78,7 @@
             break;
         case UIGestureRecognizerStateCancelled:
 //            [self animateToCenter];
-//            self.mainImageView.center = CGPointMake(self.mainImageView.center.x, self.mainImageView.center.y + yMovt);
-//            self.mainImageView.layer.transform = CATransform3DIdentity;
+
             break;
         default:
             break;
@@ -137,8 +136,7 @@
     //---->
     CGFloat computedAngle = [self angleForYPercentage:computedYPosition];
     CGFloat computedScale = [self scaleFromYPercentageOffset:computedYPosition];
-//    NSLog(@"%f : %f",computedAngle,computedYPosition);
-//    NSLog(@"%f, %f",computedAngle,computedYPosition);
+
     CATransform3D t = CATransform3DIdentity;
     t.m34 = 1.0/ -500;
     t = CATransform3DRotate(t, computedAngle, 1,0, 0);
