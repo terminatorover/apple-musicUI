@@ -34,6 +34,7 @@
 
 - (void)setupGestureRecognizers
 {
+    self.mainImageView.userInteractionEnabled = YES;
     _panRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePanning:)];
     [self addGestureRecognizer:_panRecognizer];
 }
@@ -45,7 +46,7 @@
     CGFloat width = self.bounds.size.width;
     CGFloat height = self.bounds.size.height;
     
-    CGRect mainFrame = CGRectMake(0, height/4, width, height/2);
+    CGRect mainFrame = CGRectMake(width/4, height/4, width/2, height/2);
     _mainImageView.frame = mainFrame;
     
 }
@@ -55,7 +56,7 @@
 {
     CGFloat yMovt = [panRecognizer translationInView:self].y;
     //move the image view along (according to the gesture)
-    self.mainImageView.center = CGPointMake(self.mainImageView.center.x, self.mainImageView.center.y + yMovt);
+//    self.mainImageView.center = CGPointMake(self.mainImageView.center.x, self.mainImageView.center.y + yMovt);
     switch (panRecognizer.state) {
         case UIGestureRecognizerStateBegan:
             
@@ -72,18 +73,26 @@
         default:
             break;
     }
-    self.mainImageView.layer.transform = [self computedTransformForView:self.mainImageView];
-    [panRecognizer setTranslation:CGPointZero inView:self];
+//    NSLog(@"%f",self.mainImageView.center.y);
+//    CGFloat percentage = [self yOffsetPercentageForView:self.mainImageView inSuperView:self];
+//    NSLog(@"%f",percentage);
+//    [self computedTransformForView:self.mainImageView];
+//    self.mainImageView.layer.transform = [self computedTransformForView:self.mainImageView];
+    
+      self.mainImageView.layer.transform =  [self computedTransformForView:self.mainImageView withOffset:yMovt];
 }
 
 #pragma mark - Helpers
 - (CGFloat)yOffsetPercentageForView:(UIView *)subView
                         inSuperView:(UIView *)superView
+                         withOffset:(CGFloat)offset;
 {
-    CGFloat centerY = subView.center.y;
+    CGFloat centerY = subView.center.y + offset;
     CGFloat superViewHeight = superView.bounds.size.height;
     return (centerY/superViewHeight) * 100;
 }
+
+
 
 - (CGFloat)opacityForYPercentage:(CGFloat)percent
 {
@@ -107,17 +116,32 @@
 }
 
 #pragma mark - Transform Creator  
+
 - (CATransform3D)computedTransformForView:(UIView *)view
+                               withOffset:(CGFloat)offset
 {
-    CGFloat computedYPosition = [self yOffsetPercentageForView:view inSuperView:self];
+    CGFloat computedYPosition = [self yOffsetPercentageForView:view inSuperView:self withOffset:offset];
+    //---->
     CGFloat computedAngle = [self angleForYPercentage:computedYPosition];
-    NSLog(@"%f",computedYPosition);
+//    NSLog(@"%f : %f",computedAngle,computedYPosition);
+    NSLog(@"%f, %f",computedAngle,computedYPosition);
+    CATransform3D t = CATransform3DIdentity;
+    t.m34 = 1.0/ -500;
+    t = CATransform3DRotate(t, computedAngle, 1,0, 0);
+    t = CATransform3DTranslate(t, 0, offset, 0 );
+    return t;
+
+}
+
+- (CATransform3D)transformForYOffsetPercentage:(CGFloat)percent
+{
+    CGFloat computedAngle = [self angleForYPercentage:percent];
     CATransform3D t = CATransform3DIdentity;
     t.m34 = 1.0/ -500;
     t = CATransform3DRotate(t, computedAngle, 1,0, 0);
     return t;
-}
 
+}
 
 #pragma mark - Lazy Loading
 - (CGFloat)treshold
@@ -133,7 +157,7 @@
 {
     if(_swingAngle == 0.0)
     {
-        _swingAngle = 0.6;//0.39;
+        _swingAngle = 0.20;
     }
     return _swingAngle;
 }
