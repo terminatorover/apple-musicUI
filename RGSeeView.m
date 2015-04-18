@@ -14,7 +14,9 @@
 
 
 @implementation RGSeeView
-
+{
+    CGFloat currentOffset;
+}
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -46,7 +48,8 @@
     CGFloat width = self.bounds.size.width;
     CGFloat height = self.bounds.size.height;
     
-    CGRect mainFrame = CGRectMake(width/4, height/4, width/2, height/2);
+    CGRect mainFrame = CGRectMake(0,height/3,width, height/3) ;//CGRectMake(width/8, height/4, width*6/8, height/2);
+    
     _mainImageView.frame = mainFrame;
     
 }
@@ -56,30 +59,29 @@
 {
     CGFloat yMovt = [panRecognizer translationInView:self].y;
     //move the image view along (according to the gesture)
-//    self.mainImageView.center = CGPointMake(self.mainImageView.center.x, self.mainImageView.center.y + yMovt);
+
     switch (panRecognizer.state) {
         case UIGestureRecognizerStateBegan:
-            
+                self.mainImageView.layer.transform =  [self computedTransformForView:self.mainImageView withOffset:yMovt];
             break;
         case UIGestureRecognizerStateChanged:
-            
+                self.mainImageView.layer.transform =  [self computedTransformForView:self.mainImageView withOffset:yMovt];
             break;
         case UIGestureRecognizerStateEnded:
-            
+
+            [self animateToCenter];
             break;
         case UIGestureRecognizerStateCancelled:
-            
+//            [self animateToCenter];
+//            self.mainImageView.center = CGPointMake(self.mainImageView.center.x, self.mainImageView.center.y + yMovt);
+//            self.mainImageView.layer.transform = CATransform3DIdentity;
             break;
         default:
             break;
     }
-//    NSLog(@"%f",self.mainImageView.center.y);
-//    CGFloat percentage = [self yOffsetPercentageForView:self.mainImageView inSuperView:self];
-//    NSLog(@"%f",percentage);
-//    [self computedTransformForView:self.mainImageView];
-//    self.mainImageView.layer.transform = [self computedTransformForView:self.mainImageView];
-    
-      self.mainImageView.layer.transform =  [self computedTransformForView:self.mainImageView withOffset:yMovt];
+
+    currentOffset = yMovt;
+    self.mainImageView.layer.transform =  [self computedTransformForView:self.mainImageView withOffset:yMovt];
 }
 
 #pragma mark - Helpers
@@ -142,6 +144,23 @@
     return t;
 
 }
+
+- (void)animateToCenter
+{
+    [UIView animateWithDuration:.4
+                          delay:.2
+         usingSpringWithDamping:.4
+          initialSpringVelocity:6
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         self.mainImageView.layer.transform = CATransform3DIdentity;
+                         self.mainImageView.center = self.center;
+                     }
+                     completion:^(BOOL finished) {
+                         
+                     }];
+}
+
 
 #pragma mark - Lazy Loading
 - (CGFloat)treshold
