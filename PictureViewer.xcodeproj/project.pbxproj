@@ -14,6 +14,7 @@
 		A1C54D071AE2CABD000C55DA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1C54D061AE2CABD000C55DA /* Images.xcassets */; };
 		A1C54D0A1AE2CABD000C55DA /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1C54D081AE2CABD000C55DA /* LaunchScreen.xib */; };
 		A1C54D161AE2CABD000C55DA /* PictureViewerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C54D151AE2CABD000C55DA /* PictureViewerTests.m */; };
+		A1C54D211AE2CDA8000C55DA /* RGSeeView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C54D201AE2CDA8000C55DA /* RGSeeView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,8 @@
 		A1C54D0F1AE2CABD000C55DA /* PictureViewerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PictureViewerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1C54D141AE2CABD000C55DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A1C54D151AE2CABD000C55DA /* PictureViewerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PictureViewerTests.m; sourceTree = "<group>"; };
+		A1C54D1F1AE2CDA8000C55DA /* RGSeeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGSeeView.h; sourceTree = "<group>"; };
+		A1C54D201AE2CDA8000C55DA /* RGSeeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGSeeView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +66,8 @@
 		A1C54CED1AE2CABD000C55DA = {
 			isa = PBXGroup;
 			children = (
+				A1C54D1F1AE2CDA8000C55DA /* RGSeeView.h */,
+				A1C54D201AE2CDA8000C55DA /* RGSeeView.m */,
 				A1C54CF81AE2CABD000C55DA /* PictureViewer */,
 				A1C54D121AE2CABD000C55DA /* PictureViewerTests */,
 				A1C54CF71AE2CABD000C55DA /* Products */,
@@ -222,6 +227,7 @@
 				A1C54D021AE2CABD000C55DA /* ViewController.m in Sources */,
 				A1C54CFF1AE2CABD000C55DA /* AppDelegate.m in Sources */,
 				A1C54CFC1AE2CABD000C55DA /* main.m in Sources */,
+				A1C54D211AE2CDA8000C55DA /* RGSeeView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

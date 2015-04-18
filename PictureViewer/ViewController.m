@@ -7,9 +7,9 @@
 //
 
 #import "ViewController.h"
-
+#import "RGSeeView.h"
 @interface ViewController ()
-
+@property RGSeeView *seeView;
 @end
 
 @implementation ViewController
@@ -17,6 +17,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    self.seeView = [[RGSeeView alloc]initWithFrame:self.view.bounds];
+    [self.view addSubview:self.seeView];
 }
 
 - (void)didReceiveMemoryWarning {
