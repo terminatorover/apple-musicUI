@@ -19,5 +19,5 @@
 
 
 @protocol RGSeeViewDelegate <NSObject>
-- (void) finsihedSeeing:(BOOL)value;
+- (void)finsihedSeeing:(BOOL)value;
 @end

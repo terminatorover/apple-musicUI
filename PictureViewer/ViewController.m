@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 #import "RGSeeView.h"
-@interface ViewController ()
+@interface ViewController ()<RGSeeViewDelegate>
 @property RGSeeView *seeView;
 @end
 
@@ -21,52 +21,36 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     self.seeView = [[RGSeeView alloc]initWithFrame:self.view.bounds];
+    self.seeView.delegate = self;
     [self.view addSubview:self.seeView];
-    
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        [self animate];
-    });
-//   movtView = [[UIView alloc]initWithFrame:CGRectMake(30, 0, 200, 200)];
-//   [self.view addSubview:movtView];
-//   movtView.backgroundColor = [UIColor colorWithRed:0.35 green:0.35 blue:0.35 alpha:1];
-   
-   panGesture = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePanning:)];
 }
 
-- (void)animate
+- (void)finsihedSeeing:(BOOL)value
 {
-    CATransform3D t = CATransform3DIdentity;
-    t.m34 = 1.0/ -500;
-    t = CATransform3DRotate(t, 45.0f * M_PI / 180.0f, 0, 1, 0);
-    t = CATransform3DTranslate(t, 150, 0, 0);
-    
     [UIView animateWithDuration:.4
                           delay:.2
          usingSpringWithDamping:.4
           initialSpringVelocity:6
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
-                         movtView.layer.transform = t;
-//                         movtView.center = CGPointMake(100, 300);
-//                         movtView.frame = CGRectMake(100, 300, 200, 200);
+                         self.seeView.transform = CGAffineTransformMakeScale(.01, .01);
                      }
                      completion:^(BOOL finished) {
                          
                      }];
-}
-- (IBAction)slider:(UISlider *)sender {
-    
-    CGFloat floater = sender.value;
-    CGFloat angleValue = floater * 45.0;
-    CGFloat translate = 200 * floater;
-    CATransform3D t = CATransform3DIdentity;
-    t.m34 = 1.0/ -500;
-    t = CATransform3DRotate(t, angleValue * M_PI / 180.0f, 0, 1, 0);
-    t = CATransform3DTranslate(t, translate, 0, 0);
-    
-    movtView.layer.transform = t;
-
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [UIView animateWithDuration:.4
+                              delay:.2
+             usingSpringWithDamping:.4
+              initialSpringVelocity:6
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             self.seeView.transform = CGAffineTransformIdentity;
+                         }
+                         completion:^(BOOL finished) {
+                             
+                         }];
+    });
 }
 
 - (void)didReceiveMemoryWarning {

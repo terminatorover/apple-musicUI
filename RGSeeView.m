@@ -24,7 +24,7 @@
     {
         [self setupSubviews];
         [self setupGestureRecognizers];
-        self.backgroundColor = [UIColor colorWithRed:0.11 green:0.11 blue:0.11 alpha:1];
+        self.backgroundColor = [UIColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:1];
     }
     return self;
 }
@@ -76,11 +76,17 @@
                 self.mainImageView.layer.transform =  [self computedTransformForView:self.mainImageView withOffset:yMovt];
             break;
         case UIGestureRecognizerStateEnded:
-
-            [self animateToCenter];
-            break;
         case UIGestureRecognizerStateCancelled:
-//            [self animateToCenter];
+            [self animateToCenter];
+            CGFloat computedYPosition = [self yOffsetPercentageForView:self.mainImageView
+                                                           inSuperView:self
+                                                            withOffset:yMovt];
+            if( fabs(computedYPosition - 50) > self.treshold)
+            {
+                if(_delegate && [_delegate respondsToSelector:@selector(finsihedSeeing:)]){
+                    [_delegate finsihedSeeing:YES];
+                }
+            }
 
             break;
         default:
@@ -89,9 +95,10 @@
     
     //rotate
     self.mainImageView.layer.transform =  [self computedTransformForView:self.mainImageView withOffset:yMovt];
+    //fade
     CGFloat alphaChannel =[self opacityBasedOnMovingView:self.mainImageView withOffset:yMovt];
-
-    self.backgroundColor = [UIColor colorWithRed:0.11 green:0.11 blue:0.11 alpha:alphaChannel];
+    self.backgroundColor = [UIColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:alphaChannel];
+    
 }
 
 #pragma mark - Helpers
@@ -120,7 +127,6 @@
                withOffset:(CGFloat)offset
 {
     CGFloat computedYPosition = [self yOffsetPercentageForView:view inSuperView:self withOffset:offset];
-    NSLog(@"%f",computedYPosition);
     return [self opacityForYPercentage:computedYPosition];
 }
 
@@ -150,7 +156,9 @@
 - (CATransform3D)computedTransformForView:(UIView *)view
                                withOffset:(CGFloat)offset
 {
-    CGFloat computedYPosition = [self yOffsetPercentageForView:view inSuperView:self withOffset:offset];
+    CGFloat computedYPosition = [self yOffsetPercentageForView:view
+                                                   inSuperView:self
+                                                    withOffset:offset];
     //---->
     CGFloat computedAngle = [self angleForYPercentage:computedYPosition];
     CGFloat computedScale = [self scaleFromYPercentageOffset:computedYPosition];
@@ -174,6 +182,8 @@
 
 }
 
+
+
 - (void)animateToCenter
 {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -184,9 +194,9 @@
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
                              NSLog(@"ANIMATED");
-                                                     self.mainImageView.layer.transform = CATransform3DIdentity;
+                             self.mainImageView.layer.transform = CATransform3DIdentity;
                              self.mainImageView.center = self.center;
-                             self.backgroundColor = [UIColor colorWithRed:0.11 green:0.11 blue:0.11 alpha:1];
+                             self.backgroundColor = [UIColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:1];
                          }
                          completion:^(BOOL finished) {
                              
