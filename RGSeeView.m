@@ -24,6 +24,7 @@
     {
         [self setupSubviews];
         [self setupGestureRecognizers];
+        self.backgroundColor = [UIColor colorWithRed:0.11 green:0.11 blue:0.11 alpha:1];
     }
     return self;
 }
@@ -32,9 +33,13 @@
 {
     
     _mainImageView = [[UIImageView alloc]initWithFrame:CGRectZero];
+    //TODO:REMOVE
     UIImage *image = [UIImage imageNamed:@"i3"];
     _mainImageView.image = image;
+    _mainImageView.layer.cornerRadius = 7;
+    _mainImageView.layer.masksToBounds = YES;
     [self addSubview:_mainImageView];
+    
 }
 
 - (void)setupGestureRecognizers
@@ -127,7 +132,11 @@
     if(percent >= 80 || percent <= 20)
     {
         finalAngle = 0 ;
-    }else
+    }else if(percent <= 52 && percent >= 48.0)
+    {
+        finalAngle = 0;
+    }
+    else
     {
         CGFloat transAngle = M_PI *(percent - 50)/self.treshold;
         finalAngle = -1 * self.swingAngle * sin(transAngle);
