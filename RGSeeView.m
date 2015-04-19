@@ -30,13 +30,11 @@
 
 - (void)setupSubviews
 {
+    
     _mainImageView = [[UIImageView alloc]initWithFrame:CGRectZero];
     UIImage *image = [UIImage imageNamed:@"i3"];
     _mainImageView.image = image;
     [self addSubview:_mainImageView];
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        [self animateToCenter];
-//    });
 }
 
 - (void)setupGestureRecognizers
@@ -83,9 +81,12 @@
         default:
             break;
     }
-
-    currentOffset = yMovt;
+    
+    //rotate
     self.mainImageView.layer.transform =  [self computedTransformForView:self.mainImageView withOffset:yMovt];
+    CGFloat alphaChannel =[self opacityBasedOnMovingView:self.mainImageView withOffset:yMovt];
+
+    self.backgroundColor = [UIColor colorWithRed:0.11 green:0.11 blue:0.11 alpha:alphaChannel];
 }
 
 #pragma mark - Helpers
@@ -100,7 +101,7 @@
 
 - (CGFloat)opacityForYPercentage:(CGFloat)percent
 {
-    return 1 - ( (fabs(percent) - 50 )/ 50);
+    return 1 - fabs((percent - 50 )/ 50);
 }
 
 - (CGFloat)scaleFromYPercentageOffset:(CGFloat)percent
@@ -109,6 +110,14 @@
     return MAX(1- (fabs(difference) * self.minScale/50),.9);
 }
 
+#pragma mark - Opacity Computer
+- (CGFloat)opacityBasedOnMovingView:(UIView *)view
+               withOffset:(CGFloat)offset
+{
+    CGFloat computedYPosition = [self yOffsetPercentageForView:view inSuperView:self withOffset:offset];
+    NSLog(@"%f",computedYPosition);
+    return [self opacityForYPercentage:computedYPosition];
+}
 
 
 #pragma mark - Rotation Angle Computer
@@ -168,6 +177,7 @@
                              NSLog(@"ANIMATED");
                                                      self.mainImageView.layer.transform = CATransform3DIdentity;
                              self.mainImageView.center = self.center;
+                             self.backgroundColor = [UIColor colorWithRed:0.11 green:0.11 blue:0.11 alpha:1];
                          }
                          completion:^(BOOL finished) {
                              
@@ -202,6 +212,11 @@
         _minScale = .9;
     }
     return _minScale;
+}
+
+- (void)setImage:(UIImage *)image
+{
+    [_mainImageView setImage:image];
 }
 /*
 // Only override drawRect: if you perform custom drawing.
