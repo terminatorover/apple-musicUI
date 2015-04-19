@@ -33,9 +33,6 @@
 {
     
     _mainImageView = [[UIImageView alloc]initWithFrame:CGRectZero];
-    //TODO:REMOVE
-    UIImage *image = [UIImage imageNamed:@"i3"];
-    _mainImageView.image = image;
     _mainImageView.layer.cornerRadius = 7;
     _mainImageView.layer.masksToBounds = YES;
     [self addSubview:_mainImageView];

@@ -23,6 +23,8 @@
     self.seeView = [[RGSeeView alloc]initWithFrame:self.view.bounds];
     self.seeView.delegate = self;
     [self.view addSubview:self.seeView];
+    UIImage *image = [UIImage imageNamed:@"i3"];
+    [self.seeView setImage:image];
 }
 
 - (void)finsihedSeeing:(BOOL)value
