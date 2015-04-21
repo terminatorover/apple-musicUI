@@ -8,7 +8,7 @@
 
 #import "RGImageViewController.h"
 #import "RGSeeView.h"
-@interface RGImageViewController ()
+@interface RGImageViewController ()<RGSeeViewDelegate>
 @property RGSeeView *mainView;
 @end
 
@@ -21,6 +21,7 @@
        
         [self  setModalPresentationStyle:UIModalPresentationOverCurrentContext];
         self.mainView = [[RGSeeView alloc]init];
+        self.mainView.delegate = self;
         [self.view addSubview:self.mainView];
         
         //TODO - REMOVE and expose api to set image for the view controller
@@ -40,8 +41,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    CGRect bounds =  self.view.bounds;
-    self.mainView.frame = CGRectMake(0, -bounds.size.height, bounds.size.width, bounds.size.height);
+    self.mainView.frame = self.view.bounds;
+    self.mainView.transform = CGAffineTransformMakeScale(0.001, 0.001);
     [UIView animateWithDuration:.4
                           delay:.2
          usingSpringWithDamping:.4
@@ -49,7 +50,7 @@
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                         self.view.backgroundColor = [UIColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:1];
-                         self.mainView.frame = self.view.bounds;
+                         self.mainView.transform = CGAffineTransformIdentity;
                      }
                      completion:^(BOOL finished) {
                          self.view.backgroundColor = [UIColor clearColor];
@@ -58,6 +59,20 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+//- (void)finsihedSeeing:(BOOL)value
+//{
+//    [self dismissViewControllerAnimated:NO completion:^{
+//        
+//    }];
+//}
+
+- (void)finishedDismissing:(BOOL)value
+{
+    [self dismissViewControllerAnimated:NO completion:^{
+        
+    }];
 }
 
 /*

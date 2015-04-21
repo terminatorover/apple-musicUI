@@ -74,18 +74,29 @@
             break;
         case UIGestureRecognizerStateEnded:
         case UIGestureRecognizerStateCancelled:
-            [self animateToCenter];
+        {
             CGFloat computedYPosition = [self yOffsetPercentageForView:self.mainImageView
                                                            inSuperView:self
                                                             withOffset:yMovt];
             if( fabs(computedYPosition - 50) > self.treshold)
             {
-                if(_delegate && [_delegate respondsToSelector:@selector(finsihedSeeing:)]){
-                    [_delegate finsihedSeeing:YES];
+                BOOL up ;
+                if(computedYPosition - 50 <= 0)
+                {
+                    up = YES;
+                }else
+                {
+                    up = NO;
                 }
+        
+                [self animateOutImage:up];
+            }else
+            {
+                [self animateToCenter];
             }
-
             break;
+        }
+
         default:
             break;
     }
@@ -233,6 +244,38 @@
 - (void)setImage:(UIImage *)image
 {
     [_mainImageView setImage:image];
+}
+
+- (void)animateOutImage:(BOOL)up
+{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.03 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        CGRect nextFrame;
+        CGFloat width = self.bounds.size.width;
+        CGFloat height = self.bounds.size.height;
+        if(up)
+        {
+            nextFrame = CGRectMake(0, -height/3,width, height/3);
+        }else
+        {
+            nextFrame = CGRectMake(0, height,width, height/3);
+        }
+        
+        [UIView animateWithDuration:1
+                              delay:0
+             usingSpringWithDamping:.4
+              initialSpringVelocity:1
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             self.mainImageView.frame = nextFrame;
+                         }
+                         completion:^(BOOL finished) {
+                             if(_delegate && [_delegate respondsToSelector:@selector(finishedDismissing:)])
+                             {
+                                 [_delegate finishedDismissing:YES];
+                             }
+                         }];
+    });
+ 
 }
 /*
 // Only override drawRect: if you perform custom drawing.

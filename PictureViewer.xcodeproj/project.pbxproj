@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A1B3EBCC1AE6CC8000B3A8A8 /* RGImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B3EBCB1AE6CC8000B3A8A8 /* RGImageViewController.m */; };
 		A1C54CFC1AE2CABD000C55DA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C54CFB1AE2CABD000C55DA /* main.m */; };
 		A1C54CFF1AE2CABD000C55DA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C54CFE1AE2CABD000C55DA /* AppDelegate.m */; };
 		A1C54D021AE2CABD000C55DA /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C54D011AE2CABD000C55DA /* ViewController.m */; };
@@ -28,6 +29,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A1B3EBCA1AE6CC8000B3A8A8 /* RGImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGImageViewController.h; sourceTree = "<group>"; };
+		A1B3EBCB1AE6CC8000B3A8A8 /* RGImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGImageViewController.m; sourceTree = "<group>"; };
 		A1C54CF61AE2CABD000C55DA /* PictureViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PictureViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1C54CFA1AE2CABD000C55DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A1C54CFB1AE2CABD000C55DA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -67,6 +70,8 @@
 			isa = PBXGroup;
 			children = (
 				A1C54D1F1AE2CDA8000C55DA /* RGSeeView.h */,
+				A1B3EBCA1AE6CC8000B3A8A8 /* RGImageViewController.h */,
+				A1B3EBCB1AE6CC8000B3A8A8 /* RGImageViewController.m */,
 				A1C54D201AE2CDA8000C55DA /* RGSeeView.m */,
 				A1C54CF81AE2CABD000C55DA /* PictureViewer */,
 				A1C54D121AE2CABD000C55DA /* PictureViewerTests */,
@@ -226,6 +231,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1C54D021AE2CABD000C55DA /* ViewController.m in Sources */,
+				A1B3EBCC1AE6CC8000B3A8A8 /* RGImageViewController.m in Sources */,
 				A1C54CFF1AE2CABD000C55DA /* AppDelegate.m in Sources */,
 				A1C54CFC1AE2CABD000C55DA /* main.m in Sources */,
 				A1C54D211AE2CDA8000C55DA /* RGSeeView.m in Sources */,
@@ -431,6 +437,7 @@
 				A1C54D1B1AE2CABD000C55DA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A1C54D1C1AE2CABD000C55DA /* Build configuration list for PBXNativeTarget "PictureViewerTests" */ = {
 			isa = XCConfigurationList;
@@ -439,6 +446,7 @@
 				A1C54D1E1AE2CABD000C55DA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
