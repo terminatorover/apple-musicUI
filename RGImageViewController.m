@@ -28,6 +28,7 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
 
     if (self){
+        self.mainView = [[RGSeeView alloc]initWithFrame:self.view.bounds];
         self.mainView.delegate = self;
         [self.view addSubview:self.mainView];
 
@@ -55,14 +56,14 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
 {
     self.isPresenting = NO;
     [self dismissViewControllerAnimated:NO completion:^{
-        
+
     }];
 }
 
 
 - (void)retainImagesAndImageView
 {
-    
+
     if ([self.delegate respondsToSelector:@selector(sourceImageView)]) {
         self.sourceImageView = [self.delegate sourceImageView];
         self.sourceImage = self.sourceImageView.image;
@@ -75,8 +76,18 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
     self.mainView.mainImageView.image = self.finalImage;
 }
 
+#pragma mark - Transitioning Delegate
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
+                                                                  presentingController:(UIViewController *)presenting
+                                                                      sourceController:(UIViewController *)source
+{
+    return self ;
+}
 
-#pragma mark - Transitioning
+
+
+
+#pragma mark - Animated Transitioning
 
 - (NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext
 {
@@ -97,29 +108,59 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
 
 - (void)handleDismissal:(id<UIViewControllerContextTransitioning>)transitionContext
 {
-    UIViewController <RGImageViewControllerDelegate> *fromViewController = (UIViewController <RGImageViewControllerDelegate>*) [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-    RGImageViewController *toViewController = (RGImageViewController *) [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-    [self retainImagesAndImageView];
-
-}
-
-- (void)handlePresentation:(id<UIViewControllerContextTransitioning>)transitionContext
-{
     RGImageViewController *fromViewController = (RGImageViewController *) [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIViewController <RGImageViewControllerDelegate> *toViewController = (UIViewController <RGImageViewControllerDelegate> *) [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     [self retainImagesAndImageView];
 
 }
 
+- (void)handlePresentation:(id<UIViewControllerContextTransitioning>)transitionContext
+{
+
+    UIView *containerView = [transitionContext containerView];
+
+    UIViewController <RGImageViewControllerDelegate> *fromViewController = (UIViewController <RGImageViewControllerDelegate>*) [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    RGImageViewController *toViewController = (RGImageViewController *) [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    [self retainImagesAndImageView];
+
+    self.sourceImageView.hidden = YES;
+    self.mainView.mainImageView.hidden = YES;
+    self.view.backgroundColor = [UIColor clearColor];
+    [self.mainView setNeedsLayout];
+
+    UIView *snapShotOfOriginalImageView = [self.sourceImageView snapshotViewAfterScreenUpdates:NO];
+    snapShotOfOriginalImageView.frame = [containerView convertRect:self.sourceImageView.frame fromView:self.sourceImageView.superview];
+
+    CGRect finalImageFrame = [containerView convertRect:self.mainView.mainImageView.frame fromView:self.mainView.mainImageView.superview];
+
+    [containerView addSubview:toViewController.view];
+    [containerView addSubview:snapShotOfOriginalImageView];
+
+    [UIView animateWithDuration:kRGImageViewControllerPresentationTime
+                          delay:0
+         usingSpringWithDamping:.4
+          initialSpringVelocity:.6
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         self.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.4];
+                         snapShotOfOriginalImageView.frame = finalImageFrame;
+                     }
+                     completion:^(BOOL finished) {
+                         self.mainView.mainImageView.hidden = NO;
+                         [snapShotOfOriginalImageView removeFromSuperview];
+                     }];
+
+}
+
 
 /*
-#pragma mark - Navigation
+ #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

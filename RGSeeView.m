@@ -37,7 +37,15 @@
     _mainImageView.layer.cornerRadius = 7;
     _mainImageView.layer.masksToBounds = YES;
     [self addSubview:_mainImageView];
-    
+    UIWindow *window = [[UIApplication sharedApplication]keyWindow];
+
+    CGFloat width = CGRectGetWidth(window.bounds);
+    CGFloat height = CGRectGetHeight(window.bounds);//self.bounds.size.height;
+
+    CGRect mainFrame = CGRectMake(0,height/3,width, height/3) ;
+
+    _mainImageView.frame = mainFrame;
+
 }
 
 - (void)setupGestureRecognizers
@@ -50,13 +58,8 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    _mainImageView.backgroundColor = [UIColor colorWithRed:0.25 green:0.36 blue:0.62 alpha:1];
-    CGFloat width = self.bounds.size.width;
-    CGFloat height = self.bounds.size.height;
-    
-    CGRect mainFrame = CGRectMake(0,height/3,width, height/3) ;
-    
-    _mainImageView.frame = mainFrame;
+
+
 }
 
 

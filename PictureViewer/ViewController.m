@@ -9,7 +9,8 @@
 #import "ViewController.h"
 #import "RGSeeView.h"
 #import "RGImageViewController.h"
-@interface ViewController ()<RGSeeViewDelegate>
+@interface ViewController ()<RGImageViewControllerDelegate>
+@property (weak, nonatomic) IBOutlet UIImageView *demoImageView;
 @property RGImageViewController *vc;
 @end
 
@@ -18,12 +19,28 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         self.vc =  [[RGImageViewController alloc]init];
-        [self presentViewController:self.vc animated:NO completion:^{
+        self.vc.transitioningDelegate = self.vc;
+        self.vc.isPresenting = YES;
+        self.vc.delegate = self;
+        [self presentViewController:self.vc animated:YES completion:^{
         }];
     });
 
+}
+
+
+
+//- (UIImage *)sourceImage
+//{
+//
+//}
+
+- (UIImageView *)sourceImageView
+{
+    return self.demoImageView;
 }
 
 - (void)finsihedSeeing:(BOOL)value

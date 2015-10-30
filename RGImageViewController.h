@@ -17,7 +17,8 @@
 
 @end
 
-@interface RGImageViewController : UIViewController <UIViewControllerAnimatedTransitioning>
+@interface RGImageViewController : UIViewController <UIViewControllerTransitioningDelegate,
+                                                    UIViewControllerAnimatedTransitioning>
 
 @property BOOL isPresenting;
 @property id<RGImageViewControllerDelegate> delegate;
