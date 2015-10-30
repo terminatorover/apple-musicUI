@@ -10,16 +10,15 @@
 @protocol RGSeeViewDelegate;
 
 @interface RGSeeView : UIView
+
 @property id<RGSeeViewDelegate> delegate;
-
-//- (void)animateOutImage:(BOOL)up;
-
 
 //params to tweak interaction
 @property (nonatomic) CGFloat treshold;
 @property (nonatomic) CGFloat swingAngle;
 @property (nonatomic) CGFloat minScale;
 - (void)setImage:(UIImage *)image;
+
 @end
 
 

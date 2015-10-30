@@ -14,25 +14,15 @@
 @end
 
 @implementation ViewController
-{
-    UIView *movtView;
-    UIPanGestureRecognizer *panGesture;
-}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-//    self.seeView = [[RGSeeView alloc]initWithFrame:self.view.bounds];
-//    self.seeView.delegate = self;
-//    [self.view addSubview:self.seeView];
-//    UIImage *image = [UIImage imageNamed:@"i3"];
-//    [self.seeView setImage:image];
-    self.view.backgroundColor = [UIColor colorWithRed:0.54 green:0.74 blue:0.87 alpha:1];
-    self.vc = [[RGImageViewController alloc]init];
-    
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        [self presentViewController:imageVC animated:NO completion:^{
-//        }];
-//    });
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.vc =  [[RGImageViewController alloc]init];
+        [self presentViewController:self.vc animated:NO completion:^{
+        }];
+    });
 
 }
 

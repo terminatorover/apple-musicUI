@@ -7,16 +7,19 @@
 //
 
 #import "RGSeeView.h"
+
 @interface RGSeeView()
+
 @property UIImageView *mainImageView;
 @property UIPanGestureRecognizer *panRecognizer;
-@end
 
+@end
 
 @implementation RGSeeView
 {
     CGFloat currentOffset;
 }
+
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -31,7 +34,6 @@
 
 - (void)setupSubviews
 {
-    
     _mainImageView = [[UIImageView alloc]initWithFrame:CGRectZero];
     _mainImageView.layer.cornerRadius = 7;
     _mainImageView.layer.masksToBounds = YES;
@@ -49,14 +51,13 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    _mainImageView.backgroundColor = [UIColor colorWithRed:0.32 green:0.26 blue:0.35 alpha:1];
+    _mainImageView.backgroundColor = [UIColor colorWithRed:0.25 green:0.36 blue:0.62 alpha:1];
     CGFloat width = self.bounds.size.width;
     CGFloat height = self.bounds.size.height;
     
-    CGRect mainFrame = CGRectMake(0,height/3,width, height/3) ;//CGRectMake(width/8, height/4, width*6/8, height/2);
+    CGRect mainFrame = CGRectMake(0,height/3,width, height/3) ;
     
     _mainImageView.frame = mainFrame;
-    
 }
 
 

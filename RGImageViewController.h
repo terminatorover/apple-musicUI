@@ -8,6 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RGImageViewController : UIViewController
+@class RGImageViewController;
+
+@protocol RGImageViewControllerDelegate <NSObject>
+
+- (UIImageView *)sourceImageView;
+- (UIImage *)sourceImage;
 
 @end
+
+@interface RGImageViewController : UIViewController <UIViewControllerAnimatedTransitioning>
+
+@property BOOL isPresenting;
+@property id<RGImageViewControllerDelegate> delegate;
+@end
+
+

@@ -8,25 +8,37 @@
 
 #import "RGImageViewController.h"
 #import "RGSeeView.h"
+
+static NSInteger kRGImageViewControllerPresentationTime = 1;
+
 @interface RGImageViewController ()<RGSeeViewDelegate>
+
 @property RGSeeView *mainView;
+@property UIImage *sourceImage;
+@property UIImageView *sourceImageView;
+
 @end
 
 @implementation RGImageViewController
+
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
- 
-    if(self){
-       
-        [self  setModalPresentationStyle:UIModalPresentationOverCurrentContext];
-        self.mainView = [[RGSeeView alloc]init];
+
+    if (self){
         self.mainView.delegate = self;
         [self.view addSubview:self.mainView];
-        
-        //TODO - REMOVE and expose api to set image for the view controller
-        UIImage *image = [UIImage imageNamed:@"i3"];
-        [self.mainView setImage:image];
+
+
+        if ([self.delegate respondsToSelector:@selector(sourceImageView)]) {
+            self.sourceImageView = [self.delegate sourceImageView];
+            self.sourceImage = self.sourceImageView.image;
+
+            if ([self.delegate respondsToSelector:@selector(sourceImage)]) {//if the user of the api want's the final image to be different than what was in the orignal image view
+                self.sourceImage = [self.delegate sourceImage];
+            }
+        }
+        [self.mainView setImage:self.sourceImage];
 
     }
     return self;
@@ -43,37 +55,51 @@
     [super viewWillAppear:animated];
     self.mainView.frame = self.view.bounds;
     self.mainView.transform = CGAffineTransformMakeScale(0.001, 0.001);
-    [UIView animateWithDuration:.4
-                          delay:.2
-         usingSpringWithDamping:.4
-          initialSpringVelocity:6
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-                        self.view.backgroundColor = [UIColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:1];
-                         self.mainView.transform = CGAffineTransformIdentity;
-                     }
-                     completion:^(BOOL finished) {
-                         self.view.backgroundColor = [UIColor clearColor];
-                     }];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-//- (void)finsihedSeeing:(BOOL)value
-//{
-//    [self dismissViewControllerAnimated:NO completion:^{
-//        
-//    }];
-//}
 
 - (void)finishedDismissing:(BOOL)value
 {
+//    self.presentingViewController
     [self dismissViewControllerAnimated:NO completion:^{
         
     }];
 }
+
+
+#pragma mark - Transitioning
+
+- (NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext
+{
+    return kRGImageViewControllerPresentationTime;
+}
+
+
+- (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
+{
+    if (self.isPresenting) {
+        [self handlePresentation:transitionContext];
+    }
+    else {
+        [self handleDismissal:transitionContext];
+    }
+}
+
+
+- (void)handleDismissal:(id<UIViewControllerContextTransitioning>)transitionContext
+{
+    UIViewController *fromVIew
+}
+
+- (void)handlePresentation:(id<UIViewControllerContextTransitioning>)transitionContext
+{
+
+}
+
 
 /*
 #pragma mark - Navigation
