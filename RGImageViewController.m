@@ -15,6 +15,7 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
 
 @property RGSeeView *mainView;
 @property UIImage *finalImage;
+@property UIImage *sourceImage;
 @property UIImageView *sourceImageView;
 
 @property CGRect finalVisualImageFrame;
@@ -59,10 +60,12 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
 }
 
 
-- (void)holdSourceImageAndImageView
+- (void)retainImagesAndImageView
 {
+    
     if ([self.delegate respondsToSelector:@selector(sourceImageView)]) {
         self.sourceImageView = [self.delegate sourceImageView];
+        self.sourceImage = self.sourceImageView.image;
         self.finalImage = self.sourceImageView.image;
 
         if ([self.delegate respondsToSelector:@selector(finalImage)]) {//if the user of the api want's the final image to be different than what was in the orignal image view
@@ -96,7 +99,7 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
 {
     UIViewController <RGImageViewControllerDelegate> *fromViewController = (UIViewController <RGImageViewControllerDelegate>*) [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     RGImageViewController *toViewController = (RGImageViewController *) [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-    [self holdSourceImageAndImageView];
+    [self retainImagesAndImageView];
 
 }
 
@@ -104,7 +107,7 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
 {
     RGImageViewController *fromViewController = (RGImageViewController *) [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIViewController <RGImageViewControllerDelegate> *toViewController = (UIViewController <RGImageViewControllerDelegate> *) [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-
+    [self retainImagesAndImageView];
 
 }
 
