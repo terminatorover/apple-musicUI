@@ -18,7 +18,7 @@
 @property (nonatomic) CGFloat swingAngle;
 @property (nonatomic) CGFloat minScale;
 - (void)setImage:(UIImage *)image;
-
+@property UIImageView *mainImageView;
 @end
 
 

@@ -17,6 +17,7 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
 @property UIImage *sourceImage;
 @property UIImageView *sourceImageView;
 
+@property CGRect finalVisualImageFrame;
 @end
 
 @implementation RGImageViewController
@@ -38,8 +39,7 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
                 self.sourceImage = [self.delegate sourceImage];
             }
         }
-        [self.mainView setImage:self.sourceImage];
-
+        self.mainView.mainImageView.image = self.sourceImage;
     }
     return self;
 }
@@ -50,21 +50,18 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
     // Do any additional setup after loading the view.
 }
 
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.mainView.frame = self.view.bounds;
-    self.mainView.transform = CGAffineTransformMakeScale(0.001, 0.001);
+    self.finalVisualImageFrame = [self.view convertRect:self.mainView.mainImageView.frame
+                                               fromView:self.mainView.mainImageView.superview];
 }
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+
 
 
 - (void)finishedDismissing:(BOOL)value
 {
-//    self.presentingViewController
     [self dismissViewControllerAnimated:NO completion:^{
         
     }];
@@ -92,11 +89,17 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
 
 - (void)handleDismissal:(id<UIViewControllerContextTransitioning>)transitionContext
 {
-    UIViewController *fromVIew
+    UIViewController <RGImageViewControllerDelegate> *fromViewController = (UIViewController <RGImageViewControllerDelegate>*) [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    RGImageViewController *toViewController = (RGImageViewController *) [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+
+    
 }
 
 - (void)handlePresentation:(id<UIViewControllerContextTransitioning>)transitionContext
 {
+    RGImageViewController *fromViewController = (RGImageViewController *) [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    UIViewController <RGImageViewControllerDelegate> *toViewController = (UIViewController <RGImageViewControllerDelegate> *) [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+
 
 }
 

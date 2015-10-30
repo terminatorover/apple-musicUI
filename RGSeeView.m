@@ -10,7 +10,6 @@
 
 @interface RGSeeView()
 
-@property UIImageView *mainImageView;
 @property UIPanGestureRecognizer *panRecognizer;
 
 @end
@@ -242,10 +241,6 @@
     return _minScale;
 }
 
-- (void)setImage:(UIImage *)image
-{
-    [_mainImageView setImage:image];
-}
 
 - (void)animateOutImage:(BOOL)up
 {
