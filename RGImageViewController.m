@@ -14,7 +14,7 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
 @interface RGImageViewController ()<RGSeeViewDelegate>
 
 @property RGSeeView *mainView;
-@property UIImage *sourceImage;
+@property UIImage *finalImage;
 @property UIImageView *sourceImageView;
 
 @property CGRect finalVisualImageFrame;
@@ -30,16 +30,6 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
         self.mainView.delegate = self;
         [self.view addSubview:self.mainView];
 
-
-        if ([self.delegate respondsToSelector:@selector(sourceImageView)]) {
-            self.sourceImageView = [self.delegate sourceImageView];
-            self.sourceImage = self.sourceImageView.image;
-
-            if ([self.delegate respondsToSelector:@selector(sourceImage)]) {//if the user of the api want's the final image to be different than what was in the orignal image view
-                self.sourceImage = [self.delegate sourceImage];
-            }
-        }
-        self.mainView.mainImageView.image = self.sourceImage;
     }
     return self;
 }
@@ -62,9 +52,24 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
 
 - (void)finishedDismissing:(BOOL)value
 {
+    self.isPresenting = NO;
     [self dismissViewControllerAnimated:NO completion:^{
         
     }];
+}
+
+
+- (void)holdSourceImageAndImageView
+{
+    if ([self.delegate respondsToSelector:@selector(sourceImageView)]) {
+        self.sourceImageView = [self.delegate sourceImageView];
+        self.finalImage = self.sourceImageView.image;
+
+        if ([self.delegate respondsToSelector:@selector(finalImage)]) {//if the user of the api want's the final image to be different than what was in the orignal image view
+            self.finalImage = [self.delegate sourceImage];
+        }
+    }
+    self.mainView.mainImageView.image = self.finalImage;
 }
 
 
@@ -91,8 +96,8 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
 {
     UIViewController <RGImageViewControllerDelegate> *fromViewController = (UIViewController <RGImageViewControllerDelegate>*) [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     RGImageViewController *toViewController = (RGImageViewController *) [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    [self holdSourceImageAndImageView];
 
-    
 }
 
 - (void)handlePresentation:(id<UIViewControllerContextTransitioning>)transitionContext
