@@ -12,13 +12,13 @@
 @interface ViewController ()<RGImageViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *demoImageView;
 @property RGImageViewController *vc;
+@property RGSeeView *mainView;
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
 
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         self.vc =  [[RGImageViewController alloc]init];
@@ -29,6 +29,11 @@
         }];
     });
 
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
 }
 
 

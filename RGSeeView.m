@@ -27,9 +27,11 @@
         [self setupSubviews];
         [self setupGestureRecognizers];
         self.backgroundColor = [UIColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:1];
+        self.userInteractionEnabled = YES;
     }
     return self;
 }
+
 
 - (void)setupSubviews
 {
@@ -50,7 +52,6 @@
 
 - (void)setupGestureRecognizers
 {
-    self.mainImageView.userInteractionEnabled = YES;
     _panRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePanning:)];
     [self addGestureRecognizer:_panRecognizer];
 }
@@ -58,7 +59,6 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-
 
 }
 

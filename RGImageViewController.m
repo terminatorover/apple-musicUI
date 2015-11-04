@@ -19,6 +19,7 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
 @property UIImageView *sourceImageView;
 
 @property CGRect finalVisualImageFrame;
+
 @end
 
 @implementation RGImageViewController
@@ -125,8 +126,6 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
 
     self.sourceImageView.hidden = YES;
     self.mainView.mainImageView.hidden = YES;
-    self.view.backgroundColor = [UIColor clearColor];
-    [self.mainView setNeedsLayout];
 
     UIView *snapShotOfOriginalImageView = [self.sourceImageView snapshotViewAfterScreenUpdates:NO];
     snapShotOfOriginalImageView.frame = [containerView convertRect:self.sourceImageView.frame fromView:self.sourceImageView.superview];
@@ -148,6 +147,7 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
                      completion:^(BOOL finished) {
                          self.mainView.mainImageView.hidden = NO;
                          [snapShotOfOriginalImageView removeFromSuperview];
+                         [transitionContext completeTransition:YES];
                      }];
 
 }
