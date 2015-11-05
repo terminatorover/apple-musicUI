@@ -27,6 +27,7 @@
         self.vc.delegate = self;
         [self presentViewController:self.vc animated:YES completion:^{
         }];
+        self.view.backgroundColor = [UIColor colorWithRed:0.25 green:0.36 blue:0.62 alpha:1];
     });
 
 }

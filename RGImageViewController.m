@@ -59,7 +59,8 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
 - (void)finishedDismissing:(BOOL)value
 {
     self.isPresenting = NO;
-    [self.presentingViewController dismissViewControllerAnimated:YES
+//    self.transitioningDelegate = self;
+    [self.presentingViewController  dismissViewControllerAnimated:YES
                                                       completion:^{
                                                           ///TODO:expose the completion block for the user of the API
     }];
@@ -90,7 +91,10 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
 }
 
 
-
+- (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed;
+{
+    return self;
+}
 
 #pragma mark - Animated Transitioning
 
