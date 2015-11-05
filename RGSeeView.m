@@ -70,8 +70,6 @@
 
     switch (panRecognizer.state) {
         case UIGestureRecognizerStateBegan:
-                self.mainImageView.layer.transform =  [self computedTransformForView:self.mainImageView withOffset:yMovt];
-            break;
         case UIGestureRecognizerStateChanged:
                 self.mainImageView.layer.transform =  [self computedTransformForView:self.mainImageView withOffset:yMovt];
             break;
@@ -81,7 +79,8 @@
             CGFloat computedYPosition = [self yOffsetPercentageForView:self.mainImageView
                                                            inSuperView:self
                                                             withOffset:yMovt];
-            if( fabs(computedYPosition - 50) > self.treshold)
+            NSLog(@"%@",@(computedYPosition));
+            if( fabs(computedYPosition - 50) > self.treshold)//essentially determines how far away you are from the center
             {
                 BOOL up ;
                 if(computedYPosition - 50 <= 0)
@@ -93,7 +92,17 @@
                 }
         
                 [self animateOutImage:up];
-            }else
+            }
+            else if (1)
+            {
+                if ([_delegate respondsToSelector:@selector(finsihedSeeing:)]) {
+                    [_delegate finishedDismissing:YES];
+                }
+                else {
+                    [self animateToCenter];
+                }
+            }
+            else
             {
                 [self animateToCenter];
             }
@@ -259,7 +268,7 @@
             nextFrame = CGRectMake(0, height,width, height/3);
         }
         
-        [UIView animateWithDuration:1
+        [UIView animateWithDuration:.5
                               delay:0
              usingSpringWithDamping:.4
               initialSpringVelocity:1

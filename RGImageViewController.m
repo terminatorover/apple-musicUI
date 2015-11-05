@@ -152,7 +152,7 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          snapShotOfDisplayedImageView.frame = finalFrameInContainerView;
-                         
+                         backgroundView.alpha = 0.0;
                      }
                      completion:^(BOOL finished) {
                          self.sourceImageView.hidden = NO;
