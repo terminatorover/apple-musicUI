@@ -58,14 +58,22 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
 
 - (void)finishedDismissing:(BOOL)value
 {
-    self.isPresenting = NO;
-//    self.transitioningDelegate = self;
-    [self.presentingViewController  dismissViewControllerAnimated:YES
-                                                      completion:^{
-                                                          ///TODO:expose the completion block for the user of the API
-    }];
+    [self dismissSelf];
 }
 
+- (void)finsihedSeeing:(BOOL)value
+{
+    [self dismissSelf];
+}
+
+- (void)dismissSelf
+{
+    self.isPresenting = NO;
+    [self.presentingViewController  dismissViewControllerAnimated:YES
+                                                       completion:^{
+                                                           ///TODO:expose the completion block for the user of the API
+                                                       }];
+}
 
 - (void)retainImagesAndImageView
 {
