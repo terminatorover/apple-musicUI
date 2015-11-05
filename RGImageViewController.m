@@ -54,11 +54,14 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
 
 
 
+#pragma mark - RGSeeView Delegate 
+
 - (void)finishedDismissing:(BOOL)value
 {
     self.isPresenting = NO;
-    [self dismissViewControllerAnimated:NO completion:^{
-
+    [self.presentingViewController dismissViewControllerAnimated:YES
+                                                      completion:^{
+                                                          ///TODO:expose the completion block for the user of the API
     }];
 }
 
@@ -110,10 +113,36 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
 
 - (void)handleDismissal:(id<UIViewControllerContextTransitioning>)transitionContext
 {
+    UIView *containerView = [transitionContext containerView];
     RGImageViewController *fromViewController = (RGImageViewController *) [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIViewController <RGImageViewControllerDelegate> *toViewController = (UIViewController <RGImageViewControllerDelegate> *) [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     [self retainImagesAndImageView];
 
+
+    UIView *snapShotOfDisplayedImageView = [self.mainView.mainImageView snapshotViewAfterScreenUpdates:NO];
+    UIView *backgroundView =  [[UIView alloc] initWithFrame:toViewController.view.frame];
+    backgroundView.backgroundColor = toViewController.view.backgroundColor;
+
+
+    [containerView addSubview:backgroundView];
+    [containerView addSubview:snapShotOfDisplayedImageView];
+
+    CGRect finalFrameInContainerView = [containerView  convertRect:self.sourceImageView.frame
+                                      fromView:self.mainView.mainImageView.superview];
+
+    [UIView animateWithDuration:.7
+                          delay:.2
+         usingSpringWithDamping:.4
+          initialSpringVelocity:.6
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         snapShotOfDisplayedImageView.frame = finalFrameInContainerView;
+                         
+                     }
+                     completion:^(BOOL finished) {
+                         [backgroundView removeFromSuperview];
+                         [snapShotOfDisplayedImageView removeFromSuperview];
+                     }];
 }
 
 - (void)handlePresentation:(id<UIViewControllerContextTransitioning>)transitionContext
@@ -153,6 +182,8 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
                      }];
 
 }
+
+
 
 
 /*
