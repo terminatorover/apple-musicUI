@@ -120,6 +120,9 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
 
 
     UIView *snapShotOfDisplayedImageView = [self.mainView.mainImageView snapshotViewAfterScreenUpdates:NO];
+    snapShotOfDisplayedImageView.frame = [containerView convertRect:self.mainView.mainImageView.frame
+                                                           fromView:self.mainView.mainImageView.superview];
+
     UIView *backgroundView =  [[UIView alloc] initWithFrame:toViewController.view.frame];
     backgroundView.backgroundColor = toViewController.view.backgroundColor;
 
@@ -128,7 +131,7 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
     [containerView addSubview:snapShotOfDisplayedImageView];
 
     CGRect finalFrameInContainerView = [containerView  convertRect:self.sourceImageView.frame
-                                      fromView:self.mainView.mainImageView.superview];
+                                                          fromView:self.sourceImageView.superview];
 
     [UIView animateWithDuration:.7
                           delay:.2
@@ -140,6 +143,7 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
                          
                      }
                      completion:^(BOOL finished) {
+                         self.sourceImageView.hidden = NO;
                          [backgroundView removeFromSuperview];
                          [snapShotOfDisplayedImageView removeFromSuperview];
                      }];
