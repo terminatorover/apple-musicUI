@@ -34,11 +34,12 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
         [self.view addSubview:self.mainView];
 
     }
+    self.modalPresentationStyle = UIModalPresentationOverCurrentContext;
     return self;
 }
 
-
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 }
@@ -132,6 +133,7 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
 
     CGRect finalImageFrame = [containerView convertRect:self.mainView.mainImageView.frame fromView:self.mainView.mainImageView.superview];
 
+
     [containerView addSubview:toViewController.view];
     [containerView addSubview:snapShotOfOriginalImageView];
 
@@ -141,8 +143,8 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
           initialSpringVelocity:.6
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
-                         self.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.4];
                          snapShotOfOriginalImageView.frame = finalImageFrame;
+                         toViewController.view.backgroundColor = [UIColor clearColor];
                      }
                      completion:^(BOOL finished) {
                          self.mainView.mainImageView.hidden = NO;

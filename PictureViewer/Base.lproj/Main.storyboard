@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -17,6 +18,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pexels-photo" translatesAutoresizingMaskIntoConstraints="NO" id="Q9q-1S-6dH">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="i3" translatesAutoresizingMaskIntoConstraints="NO" id="muB-93-oqo">
                                 <rect key="frame" x="231" y="461" width="139" height="139"/>
                                 <constraints>
@@ -27,8 +31,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Q9q-1S-6dH" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="topMargin" id="Hy5-Yr-fkX"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Q9q-1S-6dH" secondAttribute="trailing" constant="-20" id="RsT-Cb-gal"/>
+                            <constraint firstItem="Q9q-1S-6dH" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-20" id="ctZ-PM-C2L"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="muB-93-oqo" secondAttribute="bottom" id="lXj-DN-0Kp"/>
                             <constraint firstItem="muB-93-oqo" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="qcJ-Cq-woO"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="Q9q-1S-6dH" secondAttribute="bottom" id="yOb-kk-FQi"/>
                         </constraints>
                     </view>
                     <connections>
@@ -37,10 +45,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="617" y="581"/>
+            <point key="canvasLocation" x="-155" y="499"/>
         </scene>
     </scenes>
     <resources>
         <image name="i3" width="610" height="343"/>
+        <image name="pexels-photo" width="1072" height="712"/>
     </resources>
 </document>
