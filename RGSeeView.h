@@ -14,7 +14,8 @@
 @property id<RGSeeViewDelegate> delegate;
 
 //params to tweak interaction
-@property (nonatomic) CGFloat treshold;
+@property (nonatomic) CGFloat snapToCenterTreshold;
+@property (nonatomic) CGFloat snapToDismissTreshold;
 @property (nonatomic) CGFloat swingAngle;
 @property (nonatomic) CGFloat minScale;
 - (void)setImage:(UIImage *)image;

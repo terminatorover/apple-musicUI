@@ -8,7 +8,7 @@
 
 #import "RGSeeView.h"
 
-@interface RGSeeView()
+@interface RGSeeView ()
 
 @property UIPanGestureRecognizer *panRecognizer;
 
@@ -35,14 +35,14 @@
 
 - (void)setupSubviews
 {
-    _mainImageView = [[UIImageView alloc]initWithFrame:CGRectZero];
+    _mainImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
     _mainImageView.layer.cornerRadius = 7;
     _mainImageView.layer.masksToBounds = YES;
     [self addSubview:_mainImageView];
     UIWindow *window = [[UIApplication sharedApplication]keyWindow];
 
     CGFloat width = CGRectGetWidth(window.bounds);
-    CGFloat height = CGRectGetHeight(window.bounds);//self.bounds.size.height;
+    CGFloat height = CGRectGetHeight(window.bounds);
 
     CGRect mainFrame = CGRectMake(0,height/3,width, height/3) ;
 
@@ -80,7 +80,8 @@
                                                            inSuperView:self
                                                             withOffset:yMovt];
             NSLog(@"%@",@(computedYPosition));
-            if( fabs(computedYPosition - 50) > self.treshold)//essentially determines how far away you are from the center
+            CGFloat offsetFromCenterY =    fabs(computedYPosition - 50); //essentially determines how far away you are from the center 0 - 50
+            if( offsetFromCenterY > self.snapToCenterTreshold)
             {
                 BOOL up ;
                 if(computedYPosition - 50 <= 0)
@@ -93,7 +94,7 @@
         
                 [self animateOutImage:up];
             }
-            else if (1)
+            else if (offsetFromCenterY < self.snapToDismissTreshold)
             {
                 if ([_delegate respondsToSelector:@selector(finsihedSeeing:)]) {
                     [_delegate finishedDismissing:YES];
@@ -139,7 +140,7 @@
 - (CGFloat)scaleFromYPercentageOffset:(CGFloat)percent
 {
     CGFloat difference =  (fabs(percent) - 50);
-    return MAX(1- (fabs(difference) * self.minScale/50),.9);
+    return MAX(1 - (fabs(difference) * self.minScale/50),.9);
 }
 
 #pragma mark - Opacity Computer
@@ -164,7 +165,7 @@
     }
     else
     {
-        CGFloat transAngle = M_PI *(percent - 50)/self.treshold;
+        CGFloat transAngle = M_PI *(percent - 50)/self.snapToCenterTreshold;
         finalAngle = -1 * self.swingAngle * sin(transAngle);
     }
     
@@ -226,14 +227,24 @@
 
 
 #pragma mark - Lazy Loading
-- (CGFloat)treshold
+- (CGFloat)snapToCenterTreshold
 {
-    if(_treshold == 0.0)
-    {
-        _treshold = 30.0;
+    if(_snapToCenterTreshold == 0.0) {
+        _snapToCenterTreshold = 30.0;
     }
-    return _treshold;
+    return _snapToCenterTreshold;
 }
+
+
+- (CGFloat)snapToDismissTreshold
+{
+    if (_snapToDismissTreshold == 0.0) {
+        _snapToCenterTreshold = 40.0;
+    }
+    //TODO:Have a boundary as to how high this value can be. 
+    return _snapToDismissTreshold;
+}
+
 
 - (CGFloat)swingAngle
 {
