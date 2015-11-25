@@ -16,6 +16,9 @@
     if (self) {
         self.cellImageView = [[UIImageView alloc]init];
         [self.contentView addSubview:self.cellImageView];
+        self.cellImageView.contentMode = UIViewContentModeScaleAspectFill;
+        self.cellImageView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:1];
+        self.cellImageView.clipsToBounds = YES;
     }
     return self;
 }
@@ -24,6 +27,7 @@
 {
     [super layoutSubviews];
     self.cellImageView.frame = self.bounds;
+    self.cellImageView.layer.cornerRadius = CGRectGetWidth(self.bounds)/2.0;
 }
 
 - (void)prepareForReuse

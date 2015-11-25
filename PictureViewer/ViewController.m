@@ -16,7 +16,6 @@
                                 UICollectionViewDataSource,
                                 UICollectionViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UIImageView *demoImageView;
 @property (nonatomic) RGImageViewController *imagePickerController;
 @property RGSeeView *mainView;
 
@@ -28,17 +27,19 @@
 @implementation ViewController
 {
     BOOL tapped;
+    NSIndexPath *selectedIndexPath;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
     //hardcoded values for demoish
-    self.imageNameList = @[@"i1",@"i2",@"i3",@"i4"];
+    self.imageNameList = @[@"i1",@"i2",@"i3",@"i4",@"i1",@"i2",@"i3",@"i4",@"i1",@"i2",@"i3",@"i4",@"i2",@"i3",@"i4",@"i1",@"i2",@"i3",@"i4"];
 
     self.view.backgroundColor = [UIColor colorWithRed:0.25 green:0.36 blue:0.62 alpha:1];
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapped)];
     [self.view addGestureRecognizer:tapGesture];
+    [self setupCollectionView];
 }
 
 
@@ -50,12 +51,14 @@
 - (void)setupCollectionView
 {
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-    flowLayout.itemSize = CGSizeMake(100, 100);
+    flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    flowLayout.minimumLineSpacing = 10;
+    flowLayout.itemSize = CGSizeMake(130,130);
     self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:flowLayout];
     [self.collectionView registerClass:[RGCollectionViewCell class] forCellWithReuseIdentifier:CELL_REUSE];
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
-
+    self.collectionView.backgroundColor = [UIColor colorWithRed:0.3 green:0.22 blue:0.29 alpha:1];
     [self.view addSubview:self.collectionView];
 }
 
@@ -74,11 +77,10 @@
 
 }
 
-
-
 - (UIImageView *)sourceImageView
 {
-    return self.demoImageView;
+    RGCollectionViewCell *cell = (RGCollectionViewCell *) [self.collectionView cellForItemAtIndexPath:selectedIndexPath];
+    return cell.cellImageView;
 }
 
 - (void)finsihedSeeing:(BOOL)value
@@ -89,11 +91,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-- (IBAction)present:(id)sender {
-    self.imagePickerController =  [[RGImageViewController alloc]init];
-    [self presentViewController:self.imagePickerController animated:NO completion:^{
-    }];
 }
 
 
@@ -108,7 +105,8 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    RGCollectionViewCell *castedCell = (RGCollectionViewCell *) [self.collectionView cellForItemAtIndexPath:indexPath];
+    RGCollectionViewCell *castedCell = (RGCollectionViewCell *) [self.collectionView dequeueReusableCellWithReuseIdentifier:CELL_REUSE
+                                                                                                               forIndexPath:indexPath];
     NSString *imageName = self.imageNameList[indexPath.row];
     castedCell.cellImageView.image = [UIImage imageNamed:imageName];
     return castedCell;
@@ -119,7 +117,9 @@
 - (void)collectionView:(UICollectionView *)collectionView
 didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    selectedIndexPath = indexPath;
+    [self presentViewController:self.imagePickerController animated:NO completion:^{
+    }];
 }
 
 #pragma mark - Lazy Loading
