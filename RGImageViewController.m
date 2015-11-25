@@ -77,7 +77,6 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
 
 - (void)retainImagesAndImageView
 {
-
     if ([self.delegate respondsToSelector:@selector(sourceImageView)]) {
         self.sourceImageView = [self.delegate sourceImageView];
         self.sourceImage = self.sourceImageView.image;
@@ -176,9 +175,11 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
     self.mainView.mainImageView.hidden = YES;
 
     UIView *snapShotOfOriginalImageView = [self.sourceImageView snapshotViewAfterScreenUpdates:NO];
-    snapShotOfOriginalImageView.frame = [containerView convertRect:self.sourceImageView.frame fromView:self.sourceImageView.superview];
+    snapShotOfOriginalImageView.frame = [containerView convertRect:self.sourceImageView.frame
+                                                          fromView:self.sourceImageView.superview];
 
-    CGRect finalImageFrame = [containerView convertRect:self.mainView.mainImageView.frame fromView:self.mainView.mainImageView.superview];
+    CGRect finalImageFrame = [containerView convertRect:self.mainView.mainImageView.frame
+                                               fromView:self.mainView.mainImageView.superview];
 
 
     [containerView addSubview:toViewController.view];

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class RGImageViewController;
+
 
 @protocol RGImageViewControllerDelegate <NSObject>
 
