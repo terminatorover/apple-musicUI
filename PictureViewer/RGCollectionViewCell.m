@@ -27,7 +27,7 @@
 {
     [super layoutSubviews];
     self.cellImageView.frame = self.bounds;
-    self.cellImageView.layer.cornerRadius = CGRectGetWidth(self.bounds)/2.0;
+    self.cellImageView.layer.cornerRadius = 8;//CGRectGetWidth(self.bounds)/2.0;
 }
 
 - (void)prepareForReuse

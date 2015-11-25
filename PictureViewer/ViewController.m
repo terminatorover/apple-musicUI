@@ -37,8 +37,6 @@
     self.imageNameList = @[@"i1",@"i2",@"i3",@"i4",@"i1",@"i2",@"i3",@"i4",@"i1",@"i2",@"i3",@"i4",@"i2",@"i3",@"i4",@"i1",@"i2",@"i3",@"i4"];
 
     self.view.backgroundColor = [UIColor colorWithRed:0.25 green:0.36 blue:0.62 alpha:1];
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapped)];
-    [self.view addGestureRecognizer:tapGesture];
     [self setupCollectionView];
 }
 
@@ -68,14 +66,7 @@
     [super viewWillAppear:animated];
 }
 
-- (void)tapped
-{
-    self.imagePickerController =  [[RGImageViewController alloc] init];
 
-    [self presentViewController:self.imagePickerController animated:YES completion:^{
-    }];
-
-}
 
 - (UIImageView *)sourceImageView
 {
@@ -118,7 +109,9 @@
 didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     selectedIndexPath = indexPath;
-    [self presentViewController:self.imagePickerController animated:NO completion:^{
+    [self presentViewController:self.imagePickerController
+                       animated:YES
+                     completion:^{
     }];
 }
 
@@ -128,7 +121,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if (!_imagePickerController) {
         _imagePickerController = [[RGImageViewController alloc] init];
-        _imagePickerController.transitioningDelegate = self.imagePickerController;
+        _imagePickerController.transitioningDelegate = _imagePickerController;
         _imagePickerController.isPresenting = YES;
         _imagePickerController.delegate = self;
     }
