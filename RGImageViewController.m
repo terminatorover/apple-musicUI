@@ -134,6 +134,7 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
     UIView *snapShotOfDisplayedImageView = [self.mainView.mainImageView snapshotViewAfterScreenUpdates:NO];
     snapShotOfDisplayedImageView.frame = [containerView convertRect:self.mainView.mainImageView.frame
                                                            fromView:self.mainView.mainImageView.superview];
+    fromViewController.mainView.mainImageView.hidden = YES;
 
     UIView *backgroundView =  [[UIView alloc] initWithFrame:toViewController.view.frame];
     backgroundView.backgroundColor = toViewController.view.backgroundColor;
