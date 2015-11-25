@@ -16,20 +16,16 @@
 @end
 
 @implementation ViewController
+{
+    BOOL tapped;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        self.vc =  [[RGImageViewController alloc]init];
-        self.vc.transitioningDelegate = self.vc;
-        self.vc.isPresenting = YES;
-        self.vc.delegate = self;
-        [self presentViewController:self.vc animated:YES completion:^{
-        }];
-        self.view.backgroundColor = [UIColor colorWithRed:0.25 green:0.36 blue:0.62 alpha:1];
-    });
-
+    self.view.backgroundColor = [UIColor colorWithRed:0.25 green:0.36 blue:0.62 alpha:1];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapped)];
+    [self.view addGestureRecognizer:tapGesture];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -37,7 +33,16 @@
     [super viewWillAppear:animated];
 }
 
+- (void)tapped
+{
+    self.vc =  [[RGImageViewController alloc] init];
+    self.vc.transitioningDelegate = self.vc;
+    self.vc.isPresenting = YES;
+    self.vc.delegate = self;
+    [self presentViewController:self.vc animated:YES completion:^{
+    }];
 
+}
 
 //- (UIImage *)sourceImage
 //{

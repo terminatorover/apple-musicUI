@@ -79,10 +79,25 @@
             CGFloat computedYPosition = [self yOffsetPercentageForView:self.mainImageView
                                                            inSuperView:self
                                                             withOffset:yMovt];
-            NSLog(@"%@",@(computedYPosition));
-            CGFloat offsetFromCenterY =    fabs(computedYPosition - 50); //essentially determines how far away you are from the center 0 - 50
-            if( offsetFromCenterY > self.snapToCenterTreshold)
+
+            CGFloat offsetFromCenterY =    fabs(computedYPosition - 50); //essentially determines how far away you are from the center 0 min  - 50 max
+            NSLog(@"%@",@(offsetFromCenterY));
+            if((offsetFromCenterY > self.snapToCenterTreshold ) &&
+               (offsetFromCenterY < self.snapToDismissTreshold))
             {
+                NSLog(@"Dismiss the image");
+                if ([_delegate respondsToSelector:@selector(finsihedSeeing:)]) {
+                    [_delegate finishedDismissing:YES];
+                }
+                else {
+                    [self animateToCenter];
+                }
+            }
+            else if (offsetFromCenterY <=  self.snapToCenterTreshold) {
+                    [self animateToCenter];
+            }
+            else {
+                NSLog(@"Snap out to the sides");
                 BOOL up ;
                 if(computedYPosition - 50 <= 0)
                 {
@@ -91,21 +106,7 @@
                 {
                     up = NO;
                 }
-        
                 [self animateOutImage:up];
-            }
-            else if (offsetFromCenterY < self.snapToDismissTreshold)
-            {
-                if ([_delegate respondsToSelector:@selector(finsihedSeeing:)]) {
-                    [_delegate finishedDismissing:YES];
-                }
-                else {
-                    [self animateToCenter];
-                }
-            }
-            else
-            {
-                [self animateToCenter];
             }
             break;
         }
@@ -123,6 +124,7 @@
 }
 
 #pragma mark - Helpers
+
 - (CGFloat)yOffsetPercentageForView:(UIView *)subView
                         inSuperView:(UIView *)superView
                          withOffset:(CGFloat)offset;
@@ -239,7 +241,7 @@
 - (CGFloat)snapToDismissTreshold
 {
     if (_snapToDismissTreshold == 0.0) {
-        _snapToCenterTreshold = 40.0;
+        _snapToDismissTreshold = 40.0;
     }
     //TODO:Have a boundary as to how high this value can be. 
     return _snapToDismissTreshold;
