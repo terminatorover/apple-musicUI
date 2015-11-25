@@ -13,8 +13,8 @@
 @protocol RGImageViewControllerDelegate <NSObject>
 
 - (UIImageView *)sourceImageView;
+@optional
 - (UIImage *)sourceImage;
-
 @end
 
 @interface RGImageViewController : UIViewController <UIViewControllerTransitioningDelegate,
