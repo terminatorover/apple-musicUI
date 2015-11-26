@@ -39,7 +39,7 @@
     _mainImageView.layer.masksToBounds = YES;
     [self addSubview:_mainImageView];
     UIWindow *window = [[UIApplication sharedApplication]keyWindow];
-
+    self.backgroundColor = [UIColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:1];
     CGFloat width = CGRectGetWidth(window.bounds);
     CGFloat height = CGRectGetHeight(window.bounds);
 

@@ -156,9 +156,9 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
                      }
                      completion:^(BOOL finished) {
                          self.sourceImageView.hidden = NO;
-                         [transitionContext completeTransition:YES];
                          [backgroundView removeFromSuperview];
                          [snapShotOfDisplayedImageView removeFromSuperview];
+                         [transitionContext completeTransition:YES];
                      }];
 }
 

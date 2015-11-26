@@ -36,7 +36,6 @@
     //hardcoded values for demoish
     self.imageNameList = @[@"i1",@"i2",@"i3",@"i4",@"i1",@"i2",@"i3",@"i4",@"i1",@"i2",@"i3",@"i4",@"i2",@"i3",@"i4",@"i1",@"i2",@"i3",@"i4"];
 
-    self.view.backgroundColor = [UIColor colorWithRed:0.25 green:0.36 blue:0.62 alpha:1];
     [self setupCollectionView];
 }
 
