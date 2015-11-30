@@ -206,6 +206,7 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
     if (!_movingImageView) {
         _movingImageView = [[UIImageView alloc] init];
         _movingImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _movingImageView.clipsToBounds = YES;
     }
     return _movingImageView;
 }
