@@ -81,11 +81,9 @@
                                                             withOffset:yMovt];
 
             CGFloat offsetFromCenterY =    fabs(computedYPosition - 50); //essentially determines how far away you are from the center 0 min  - 50 max
-            NSLog(@"%@",@(offsetFromCenterY));
             if((offsetFromCenterY > self.snapToCenterTreshold ) &&
                (offsetFromCenterY < self.snapToDismissTreshold))
             {
-                NSLog(@"Dismiss the image");
                 if ([_delegate respondsToSelector:@selector(finsihedSeeing:)]) {
                     [_delegate finsihedSeeing:YES];
                 }
@@ -97,7 +95,6 @@
                     [self animateToCenter];
             }
             else {
-                NSLog(@"Snap out to the sides");
                 BOOL up ;
                 if(computedYPosition - 50 <= 0)
                 {
@@ -216,7 +213,6 @@
               initialSpringVelocity:6
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
-                             NSLog(@"ANIMATED");
                              self.mainImageView.layer.transform = CATransform3DIdentity;
                              self.mainImageView.center = self.center;
                              self.backgroundColor = [UIColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:1];

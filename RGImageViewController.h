@@ -8,13 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-
-
 @protocol RGImageViewControllerDelegate <NSObject>
 
 - (UIImageView *)sourceImageView;
 @optional
 - (UIImage *)sourceImage;
+
 @end
 
 @interface RGImageViewController : UIViewController <UIViewControllerTransitioningDelegate,
