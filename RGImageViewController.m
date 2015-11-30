@@ -20,6 +20,8 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
 
 @property CGRect finalVisualImageFrame;
 
+@property (nonatomic) UIImageView *movingImageView;
+
 @end
 
 @implementation RGImageViewController
@@ -87,6 +89,7 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
         }
     }
     self.mainView.mainImageView.image = self.finalImage;
+    self.movingImageView.image = self.finalImage;
 }
 
 #pragma mark - Transitioning Delegate
@@ -130,13 +133,11 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
 
     [self retainImagesAndImageView];
 
-
-    UIView *snapShotOfDisplayedImageView = [self.mainView.mainImageView snapshotViewAfterScreenUpdates:NO];
-    snapShotOfDisplayedImageView.frame = [containerView convertRect:self.mainView.mainImageView.frame
+    self.movingImageView.frame = [containerView convertRect:self.mainView.mainImageView.frame
                                                            fromView:self.mainView.mainImageView.superview];
     fromViewController.mainView.mainImageView.hidden = YES;
 
-    [containerView addSubview:snapShotOfDisplayedImageView];
+    [containerView addSubview:self.movingImageView];
 
     CGRect finalFrameInContainerView = [containerView  convertRect:self.sourceImageView.frame
                                                           fromView:self.sourceImageView.superview];
@@ -147,12 +148,12 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
           initialSpringVelocity:.6
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
-                         snapShotOfDisplayedImageView.frame = finalFrameInContainerView;
+                         self.movingImageView.frame = finalFrameInContainerView;
                      }
                      completion:^(BOOL finished) {
                          [transitionContext completeTransition:YES];
                          self.sourceImageView.hidden = NO;
-                         [snapShotOfDisplayedImageView removeFromSuperview];
+                         [self.movingImageView removeFromSuperview];
 
                      }];
 }
@@ -171,8 +172,7 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
     self.sourceImageView.hidden = YES;
     self.mainView.mainImageView.hidden = YES;
 
-    UIView *snapShotOfOriginalImageView = [self.sourceImageView snapshotViewAfterScreenUpdates:NO];
-    snapShotOfOriginalImageView.frame = [containerView convertRect:self.sourceImageView.frame
+    self.movingImageView.frame = [containerView convertRect:self.sourceImageView.frame
                                                           fromView:self.sourceImageView.superview];
 
     CGRect finalImageFrame = [containerView convertRect:self.mainView.mainImageView.frame
@@ -180,7 +180,7 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
 
 
     [containerView addSubview:toViewController.view];
-    [containerView addSubview:snapShotOfOriginalImageView];
+    [containerView addSubview:self.movingImageView];
 
     [UIView animateWithDuration:kRGImageViewControllerPresentationTime
                           delay:0
@@ -188,18 +188,27 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
           initialSpringVelocity:.6
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
-                         snapShotOfOriginalImageView.frame = finalImageFrame;
+                         self.movingImageView.frame = finalImageFrame;
+                         self.movingImageView.layer.cornerRadius = 7;
                          toViewController.view.backgroundColor = [UIColor clearColor];
                      }
                      completion:^(BOOL finished) {
                          self.mainView.mainImageView.hidden = NO;
-                         [snapShotOfOriginalImageView removeFromSuperview];
+                         [self.movingImageView removeFromSuperview];
                          [transitionContext completeTransition:YES];
                      }];
 
 }
 
 
+- (UIImageView *)movingImageView
+{
+    if (!_movingImageView) {
+        _movingImageView = [[UIImageView alloc] init];
+        _movingImageView.contentMode = UIViewContentModeScaleAspectFill;
+    }
+    return _movingImageView;
+}
 
 
 /*

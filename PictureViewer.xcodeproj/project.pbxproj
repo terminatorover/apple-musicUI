@@ -73,9 +73,9 @@
 			isa = PBXGroup;
 			children = (
 				A1C54D1F1AE2CDA8000C55DA /* RGSeeView.h */,
+				A1C54D201AE2CDA8000C55DA /* RGSeeView.m */,
 				A1B3EBCA1AE6CC8000B3A8A8 /* RGImageViewController.h */,
 				A1B3EBCB1AE6CC8000B3A8A8 /* RGImageViewController.m */,
-				A1C54D201AE2CDA8000C55DA /* RGSeeView.m */,
 				A1C54CF81AE2CABD000C55DA /* PictureViewer */,
 				A1C54D121AE2CABD000C55DA /* PictureViewerTests */,
 				A1C54CF71AE2CABD000C55DA /* Products */,
