@@ -40,7 +40,7 @@
     _mainImageView.layer.masksToBounds = YES;
     [self addSubview:_mainImageView];
     UIWindow *window = [[UIApplication sharedApplication]keyWindow];
-    self.backgroundColor = [UIColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:1];
+    self.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1];
     CGFloat width = CGRectGetWidth(window.bounds);
     CGFloat height = CGRectGetHeight(window.bounds);
 
@@ -118,7 +118,7 @@
     self.mainImageView.layer.transform =  [self computedTransformForView:self.mainImageView withOffset:yMovt];
     //fade
     CGFloat alphaChannel =[self opacityBasedOnMovingView:self.mainImageView withOffset:yMovt];
-    self.backgroundColor = [UIColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:alphaChannel];
+    self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:alphaChannel];
     
 }
 
@@ -217,7 +217,7 @@
                          animations:^{
                              self.mainImageView.layer.transform = CATransform3DIdentity;
                              self.mainImageView.center = self.center;
-                             self.backgroundColor = [UIColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:1];
+                             self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:1];
                          }
                          completion:^(BOOL finished) {
                              
