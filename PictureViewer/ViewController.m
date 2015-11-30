@@ -120,12 +120,12 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 
 - (RGImageViewController *)imagePickerController
 {
-    if (!_imagePickerController) {
+//    if (!_imagePickerController) {
         _imagePickerController = [[RGImageViewController alloc] init];
         _imagePickerController.transitioningDelegate = _imagePickerController;
         _imagePickerController.isPresenting = YES;
         _imagePickerController.delegate = self;
-    }
+//    }
     return _imagePickerController;
 }
 
