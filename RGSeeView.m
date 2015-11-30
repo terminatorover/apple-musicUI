@@ -43,10 +43,11 @@
     CGFloat width = CGRectGetWidth(window.bounds);
     CGFloat height = CGRectGetHeight(window.bounds);
 
+    //TODO:make this a configurable property
     CGRect mainFrame = CGRectMake(0,height/3,width, height/3) ;
 
     _mainImageView.frame = mainFrame;
-
+    _mainImageView.contentMode = UIViewContentModeScaleAspectFill;
 }
 
 - (void)setupGestureRecognizers
@@ -86,7 +87,7 @@
             {
                 NSLog(@"Dismiss the image");
                 if ([_delegate respondsToSelector:@selector(finsihedSeeing:)]) {
-                    [_delegate finishedDismissing:YES];
+                    [_delegate finsihedSeeing:YES];
                 }
                 else {
                     [self animateToCenter];

@@ -104,10 +104,12 @@
 
 
 #pragma mark - Collection View Delegate
+
 - (void)collectionView:(UICollectionView *)collectionView
 didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     selectedIndexPath = indexPath;
+    self.imagePickerController.isPresenting = YES;
     [self presentViewController:self.imagePickerController
                        animated:YES
                      completion:^{

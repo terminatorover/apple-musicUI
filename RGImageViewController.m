@@ -81,7 +81,7 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
         self.sourceImageView = [self.delegate sourceImageView];
         self.sourceImage = self.sourceImageView.image;
         self.finalImage = self.sourceImageView.image;
-
+        self.sourceImageView.contentMode = UIViewContentModeScaleAspectFill;
         if ([self.delegate respondsToSelector:@selector(finalImage)]) {//if the user of the api want's the final image to be different than what was in the orignal image view
             self.finalImage = [self.delegate sourceImage];
         }
@@ -127,6 +127,7 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
     UIView *containerView = [transitionContext containerView];
     RGImageViewController *fromViewController = (RGImageViewController *) [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIViewController <RGImageViewControllerDelegate> *toViewController = (UIViewController <RGImageViewControllerDelegate> *) [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+
     [self retainImagesAndImageView];
 
 
@@ -135,30 +136,24 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
                                                            fromView:self.mainView.mainImageView.superview];
     fromViewController.mainView.mainImageView.hidden = YES;
 
-    UIView *backgroundView =  [[UIView alloc] initWithFrame:toViewController.view.frame];
-    backgroundView.backgroundColor = toViewController.view.backgroundColor;
-
-
-    [containerView addSubview:backgroundView];
     [containerView addSubview:snapShotOfDisplayedImageView];
 
     CGRect finalFrameInContainerView = [containerView  convertRect:self.sourceImageView.frame
                                                           fromView:self.sourceImageView.superview];
 
-    [UIView animateWithDuration:.7
-                          delay:.2
+    [UIView animateWithDuration:kRGImageViewControllerPresentationTime
+                          delay:0
          usingSpringWithDamping:.4
           initialSpringVelocity:.6
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          snapShotOfDisplayedImageView.frame = finalFrameInContainerView;
-                         backgroundView.alpha = 0.0;
                      }
                      completion:^(BOOL finished) {
-                         self.sourceImageView.hidden = NO;
-                         [backgroundView removeFromSuperview];
-                         [snapShotOfDisplayedImageView removeFromSuperview];
                          [transitionContext completeTransition:YES];
+                         self.sourceImageView.hidden = NO;
+                         [snapShotOfDisplayedImageView removeFromSuperview];
+
                      }];
 }
 
@@ -169,7 +164,9 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
 
     UIViewController <RGImageViewControllerDelegate> *fromViewController = (UIViewController <RGImageViewControllerDelegate>*) [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     RGImageViewController *toViewController = (RGImageViewController *) [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-    [self retainImagesAndImageView];
+
+    //TODO:
+    [self retainImagesAndImageView];//note calling this allows us to get the new frame of the image view dispalyed.
 
     self.sourceImageView.hidden = YES;
     self.mainView.mainImageView.hidden = YES;
