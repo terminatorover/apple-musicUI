@@ -82,6 +82,7 @@
                                                             withOffset:yMovt];
 
             CGFloat offsetFromCenterY =    fabs(computedYPosition - 50); //essentially determines how far away you are from the center 0 min  - 50 max
+            NSLog(@"Y offset :%@",@(offsetFromCenterY));
             if((offsetFromCenterY > self.snapToCenterTreshold ) &&
                (offsetFromCenterY < self.snapToDismissTreshold))
             {
@@ -238,7 +239,7 @@
 - (CGFloat)snapToDismissTreshold
 {
     if (_snapToDismissTreshold == 0.0) {
-        _snapToDismissTreshold = 40.0;
+        _snapToDismissTreshold = 46.0;
     }
     //TODO:Have a boundary as to how high this value can be. 
     return _snapToDismissTreshold;

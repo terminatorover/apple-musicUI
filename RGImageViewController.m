@@ -9,7 +9,7 @@
 #import "RGImageViewController.h"
 #import "RGSeeView.h"
 
-static NSInteger kRGImageViewControllerPresentationTime = 1;
+static CGFloat kRGImageViewControllerPresentationTime = .8;
 
 @interface RGImageViewController ()<RGSeeViewDelegate>
 
@@ -144,7 +144,7 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
 
     [UIView animateWithDuration:kRGImageViewControllerPresentationTime
                           delay:0
-         usingSpringWithDamping:.4
+         usingSpringWithDamping:.5
           initialSpringVelocity:.6
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
@@ -184,7 +184,7 @@ static NSInteger kRGImageViewControllerPresentationTime = 1;
 
     [UIView animateWithDuration:kRGImageViewControllerPresentationTime
                           delay:0
-         usingSpringWithDamping:.4
+         usingSpringWithDamping:.5
           initialSpringVelocity:.6
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
